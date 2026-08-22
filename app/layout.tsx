@@ -16,12 +16,12 @@ export const metadata: Metadata = {
   title: "Jurisence | The Algorithm for Next-Gen Legal Minds",
   description:
     "Jurisence is building the future of legal technology at the intersection of law, AI, and digital intelligence.",
-  generator: "Jurisence"
-
+  generator: "Jurisence",
   icons: {
-  icon: "/images/favicon.jpeg",
-  apple: "/images/favicon.jpeg",
-},
+    icon: "/images/favicon.jpeg",
+    apple: "/images/favicon.jpeg",
+  },
+}
 
 export default function RootLayout({
   children,
@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
+      <body className="font-sans antialiased">
         {children}
         <Analytics />
       </body>
