@@ -5,7 +5,9 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
+
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
+
 const _playfairDisplay = Playfair_Display({
   subsets: ["latin"],
   style: ["italic"],
