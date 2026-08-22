@@ -1,28 +1,48 @@
 import { NextResponse } from "next/server"
+import { FieldValue } from "firebase-admin/firestore"
+import { db } from "@/lib/firebase-admin"
 
 export async function POST(request: Request) {
   try {
     const { email, source } = await request.json()
 
-    // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!email || !emailRegex.test(email)) {
-      return NextResponse.json({ error: "Invalid email address" }, { status: 400 })
+    if (!email || typeof email !== "string") {
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 }
+      )
     }
 
-    // TODO: Add database integration
-    // Example with Supabase:
-    // const supabase = createServerClient(...)
-    // const { data, error } = await supabase
-    //   .from('waitlist_signups')
-    //   .insert([{ email: email.toLowerCase(), source }])
+    const normalizedEmail = email.trim().toLowerCase()
 
-    // For now, just log and return success
-    console.log("[v0] Waitlist signup:", email, source)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    return NextResponse.json({ success: true, message: "Successfully joined waitlist" }, { status: 200 })
+    if (!emailRegex.test(normalizedEmail)) {
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 }
+      )
+    }
+
+    await db.collection("waitlist_signups").add({
+      email: normalizedEmail,
+      source: source || "homepage",
+      createdAt: FieldValue.serverTimestamp(),
+    })
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Successfully joined waitlist",
+      },
+      { status: 200 }
+    )
   } catch (error) {
-    console.error("[v0] Waitlist error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Waitlist error:", error)
+
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    )
   }
 }
