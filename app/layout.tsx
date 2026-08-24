@@ -21,10 +21,11 @@ export const metadata: Metadata = {
   description:
     "Jurisence is building the future of legal technology at the intersection of law, AI, and digital intelligence.",
   generator: "Jurisence",
-  icons: {
-    icon: "/images/favicon.jpeg",
-    apple: "/images/favicon.jpeg",
-  },
+icons: {
+  icon: "/images/favicon.png",
+  shortcut: "/images/favicon.png",
+  apple: "/images/favicon.png",
+},
 }
 
 export default function RootLayout({
